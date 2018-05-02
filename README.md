@@ -1,5 +1,4 @@
 # React Wizard
-=========
 is Yeoman template to help users for **ReactJS** initial project setup. I'm trying to not use bunch of libraries that won't be used. Through an interactive guide, the user can set whether he wants to use the version from CDN or not, how to pack the final file (Browserify or Webpack), to use Gulp or just npm scripts, etc.
 
 # Questions:

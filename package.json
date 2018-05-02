@@ -1,5 +1,5 @@
 {
-  "name": "generator-react-wizzard02",
+  "name": "generator-react-wizard",
   "version": "0.1.0",
   "description": "Prepare React project with several options (Browserify of WebPack, Gulp, Lint etc)",
   "files": [
@@ -10,7 +10,8 @@
     "react",
     "webpack",
     "browserify",
-    "gulp"
+    "gulp",
+    "browserSync"
   ],
   "author": "Stojan Ilic",
   "license": "ISC",
