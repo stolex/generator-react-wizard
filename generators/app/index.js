@@ -10,7 +10,7 @@ module.exports = class extends Generator {
 		this._response = {
 			appName: ""
 		};
-			//if we need to update package.json properties that need to be updated are in this object
+			//if we need to update package.json, properties that need to be updated are in this object
 		this._packageJsonUpdate = {
 			name: this.appname
 		};
@@ -85,7 +85,9 @@ module.exports = class extends Generator {
 		var c_templateObj = {
 			title: this.appname,
 			scripts: "",
-			cdn: false
+			cdn: false,
+			listen: this._response.gulpListen ? true : false,
+			sync: this._response.gulpSync ? true : false
 		};
 			//if user selected to use React from CDN update template variables
 		if (this._response.source === "CDN"){
