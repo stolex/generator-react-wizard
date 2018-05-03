@@ -33,16 +33,24 @@ webpack({
 	output: {
 		path: path.resolve(__dirname, "../build"),
 		filename: "index.js",
-	}
+	}<% if(babelReact) { %>, module: {
+		rules: [
+			{
+				test: /\.jsx?$/,
+				exclude: /node_modules/,
+				use: "babel-loader"
+			}
+		]
+	}<% } %>
 }, function (err, stats) {
 	if (err) {
 		console.log(err);
 	}
-});
-<% } %>
+});<% } _%>
 
-<% if (buildType == "browserify") { %>
+<% if (buildType == "browserify") { _%>
 	//browserify code
 const browserify = require("browserify");
-browserify("./src/index.js").bundle().pipe(fs.createWriteStream("./build/index.js"));
+browserify("./src/index.js")<%_ if (babelReact) { _%>.transform("babelify")<%_ } _%>
+.bundle().pipe(fs.createWriteStream("./build/index.js"));
 <% } %>

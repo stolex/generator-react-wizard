@@ -9,6 +9,11 @@ is Yeoman template to help users for **ReactJS** initial project setup. I'm tryi
 Select library to pack source files to final Javascript release:
 - Webpack  
 - Browserify
+## Do you want to use Babel?
+If you want to use modern EcmaScript features, or JSX templating for React components you must to use Babel.
+## What Babel presets you want to use?
+- React - used to transpile JSX HTML code to React components
+- Newest EcmaScript - used to update your modern Javascript code, to be supported in older browsers
 ## How to build your scripts?
 - Standalone - with this option we will create script(s) in `./scripts/` folder that will be used for build. In this case you must to execute those scripts manually
 - Gulp - will configure `gulpfile.js` - main Gulp configuration file with all tasks that user can execute.

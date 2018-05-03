@@ -54,6 +54,28 @@ module.exports = {
 			name: "gulpSync",
 			message: "Should Gulp autorefresh browsers on changes?"
 		},
+	installBabel: {
+		type: "confirm",
+		name: "installBabel",
+		message: "Do you want to use Babel?"
+	},
+		babelOptions: {
+			type: "checkbox",
+			name: "babelOptions",
+			choices: [
+				{
+					name: "React",
+					value: "babel-preset-react",
+					checked: true
+				},
+				{
+					name: "Newest EcmaScript",
+					value: "babel-preset-env",
+					checked: false
+				}
+			],
+			message: "What Babel presets you want to use?"
+		},
 	runNPMInstall: {
 		type: "confirm",
 		name: "runInstall",

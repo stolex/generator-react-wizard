@@ -1,8 +1,7 @@
 var gulp = require("gulp");
 <% if (pack === "browserify") { %>
 const browserify = require("browserify");
-const fs = require("fs");
-<% } if (pack === "webpack") { %>
+const fs = require("fs");<% } if (pack === "webpack") { %>
 const webpack = require("webpack");
 const path = require("path");
 <% } %>
@@ -34,7 +33,8 @@ gulp.task("js", function () {
 	browserify(SOURCE + "index.js", {
 		insertGlobals: true,
 		debug: !_isProduction
-	})
+	}) <% if (babelReact) { %>
+	.transform("babelify")<% } %>
 	.bundle()
 	.pipe(fs.createWriteStream(DESTINATION + "index.js"));
 	<% } if (pack === "webpack") { %>
@@ -44,7 +44,15 @@ gulp.task("js", function () {
 		output: {
 			path: path.resolve(__dirname, DESTINATION),
 			filename: "index.js"
-		}
+		}<% if(babelReact) { %>, module: {
+			rules: [
+				{
+					test: /\.jsx?$/,
+					exclude: /node_modules/,
+					use: "babel-loader"
+				}
+			]
+		}<% } %>
 	}, function(err, stats){
 		if (err){
 			console.log("Webpack error ", err);

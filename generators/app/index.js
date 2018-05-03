@@ -24,6 +24,13 @@ module.exports = class extends Generator {
 				//Questions for user
 			Questions.reactSource,
 			Questions.packTool,
+			Questions.installBabel,
+					//Babel specific questions
+				Object.assign({
+					when: function (answer) {
+						return answer.installBabel;
+					}
+				}, Questions.babelOptions),
 			Questions.buildTool,
 				//Gulp specific questions
 				Object.assign({
@@ -44,7 +51,7 @@ module.exports = class extends Generator {
 		});
 		
 	}
-
+	
 	writing(){
 		this._writeTemplates();
 			//update package.json object
@@ -57,6 +64,14 @@ module.exports = class extends Generator {
 			//add tool for packing (browserify|webpack)
 		if (this._response.packTool) {
 			this._npmPackages.push(this._response.packTool);
+		};
+
+		if (this._response.installBabel) {
+			this._npmPackages.push("babel-core", "babel-loader");
+			this._npmPackages = this._npmPackages.concat(this._response.babelOptions);
+			if (this._response.packTool == "browserify"){
+				this._npmPackages.push("babelify");
+			}
 		};
 
 		if (this._response.buildTool === "Gulp") {
@@ -109,17 +124,40 @@ module.exports = class extends Generator {
 			this.destinationPath("README.md"),
 			c_templateObj
 		);
+		if (this._response.installBabel) {
+			if (this._response.babelOptions && this._response.babelOptions.length > 0) {
+				this.fs.copyTpl(
+					this.templatePath(".babelrc"),
+					this.destinationPath(".babelrc"),
+					{
+						presets: this._response.babelOptions.map(function(element){
+							return '"' + element.replace(/(babel-)?preset-/, "") + '"'
+						}).join(", ")
+					}
+				);
+			}
+		}
 	}
 
 		//prepare build scripts
 	_writeScripts() {
 		var c_packageJsonUpdate = {};
+		var c_babelReact = false;
+			//if user selected preset-react we need to inject extra code in scripts
+		if (this._response.installBabel) {
+			if (this._response.babelOptions && this._response.babelOptions.length > 0) {
+				if (this._response.babelOptions.indexOf("babel-preset-react") != -1){
+					c_babelReact = true;
+				}
+			}
+		}
 		if (this._response.buildTool === "Standalone"){
 			this.fs.copyTpl(
 				this.templatePath("scripts/build_standalone.js"),
 				this.destinationPath("scripts/build.js"),
 				{
-					buildType: this._response.packTool
+					buildType: this._response.packTool,
+					babelReact: c_babelReact
 				}
 			);
 			c_packageJsonUpdate.scripts = {
@@ -133,7 +171,8 @@ module.exports = class extends Generator {
 				{
 					listen: this._response.gulpListen,
 					sync: this._response.gulpSync,
-					pack: this._response.packTool
+					pack: this._response.packTool,
+					babelReact: c_babelReact
 				}
 			);
 				//GULP scripts

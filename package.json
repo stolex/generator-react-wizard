@@ -1,7 +1,7 @@
 {
   "name": "generator-react-wizard",
-  "version": "0.1.1",
-  "description": "Prepare React project with several options (Browserify of WebPack, Gulp, Lint etc)",
+  "version": "0.2.0",
+  "description": "Prepare React project with several options (Browserify of WebPack, Gulp, Babel etc)",
   "files": [
     "generators"
   ],
@@ -10,12 +10,14 @@
     "react",
     "webpack",
     "browserify",
+    "babel",
     "gulp",
     "browserSync"
   ],
   "author": "Stojan Ilic",
-  "license": "ISC",
+  "license": "MIT",
   "homepage": "https://github.com/stolex/generator-react-wizard",
+  "repository": "https://github.com/stolex/generator-react-wizard",
   "dependencies": {
     "yeoman-generator": "^2.0.4"
   }
